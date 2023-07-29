@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1 class="mt-4">User Detail</h1>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">{{ user.username }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ user.email }}</h6>
+    <p class="card-text">First Name: {{ user.first_name }}</p>
+    <p class="card-text">Last Name: {{ user.last_name }}</p>
+  </div>
+</div>
+
+<h2>User's Feedback</h2>
+
+{% for feedback in user.feedback %}
+<div class="card mb-2">
+  <div class="card-body">
+    <h5 class="card-title">{{ feedback.title }}</h5>
+    <p class="card-text">{{ feedback.content }}</p>
+    <a href="/feedback/{{ feedback.id }}/update" class="btn btn-primary"
+      >Edit</a
+    >
+    <form
+      method="POST"
+      action="/feedback/{{ feedback.id }}/delete"
+      class="d-inline"
+    >
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+
+<!-- Link to add more feedback -->
+<a href="/users/{{ user.username }}/feedback/add" class="btn btn-success mb-3"
+  >Add Feedback</a
+>
+
+<!-- Button to delete user -->
+<form method="POST" action="/users/{{ user.username }}/delete">
+  <button type="submit" class="btn btn-danger">Delete User</button>
+</form>
+
+{% endblock %}
